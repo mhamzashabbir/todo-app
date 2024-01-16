@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/tasks")
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/tasks`)
       .then((response) => {
         console.log("Tasks fetched:", response.data);
         setTasks(response.data);
@@ -78,7 +78,7 @@ export default function Home() {
       isCompleted: false,
     };
     axios
-      .post("http://localhost:8080/tasks", taskData)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/tasks`, taskData)
       .then((response) => {
         console.log("Task created:", response.data);
         const newTasks = [...tasks, response.data];
@@ -117,20 +117,20 @@ export default function Home() {
         <div className="flex items-center bg-white mb-2 rounded-lg justify-between w-[90vw] md:w-[35vw] mt-4">
           <input
             type="text"
-            class="focus:border-transparent border-1 p-2 rounded-md ml-4 w-full"
+            className="focus:border-transparent border-1 p-2 rounded-md ml-4 w-full"
             placeholder=" Add new task"
             value={newTask}
             onChange={handleInputChange}
           />
           <button
-            className="p-1 border-1 hover:bg-black hover:text-white text-3xl ml-2 px-4"
+            className="p-1 border-1 bg-gray-100 w-10 h-8 mr-1 rounded-lg hover:bg-black hover:text-white text-3xl ml-2 flex items-center justify-center"
             onClick={handleAddTask}
           >
             +
           </button>
         </div>
 
-        <div className="bg-transparent text-black border-[2px] border-black w-[90vw] md:w-[35vw]  mb-5 flex flex-col items-center justify-between rounded-lg backdrop-blur">
+        <div className="bg-transparent text-black border-[1px] border-gray-300 w-[90vw] md:w-[35vw]  mb-5 flex flex-col items-center justify-between rounded-lg backdrop-blur">
           <div className="flex items-center justify-between w-full">
             <button className="p-2 ">
               {" "}
@@ -161,7 +161,7 @@ export default function Home() {
           unmountOnExit
         >
           <div className="overflow-hidden">
-            <div className="flex-col items-center w-[90vw] md:w-[35vw] h-[30vh] overflow-auto overflow-x-hidden custom-scrollbar">
+            <div className="flex-col items-center w-[90vw] md:w-[35vw] h-52 overflow-auto overflow-x-hidden custom-scrollbar">
               {tasks.length > 0 ? (
                 [...tasks].reverse().map((task) => (
                   <Task

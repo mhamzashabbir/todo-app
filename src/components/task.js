@@ -16,7 +16,7 @@ const Task = ({ task ,onTaskUpdate, onTaskDelete}) => {
       completedAt: task.isCompleted ? null : new Date(),
     };
 
-    axios.put(`http://localhost:8080/tasks/${task._id}`, updatedTask)
+    axios.put(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`, updatedTask)
       .then(response => {
         onTaskUpdate(response.data);
       })
@@ -33,7 +33,7 @@ const Task = ({ task ,onTaskUpdate, onTaskDelete}) => {
   };
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:8080/tasks/${task._id}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task._id}`)
       .then(response => {
         onTaskDelete(task._id);
       })
@@ -50,8 +50,8 @@ const Task = ({ task ,onTaskUpdate, onTaskDelete}) => {
   };
 
   return (
-    <div className="bg-white bg-opacity-70 w-[90vw] md:w-[35vw] mb-1  flex flex-col items-center justify-between p-2 border-b-2 border-gray-500 rounded-lg">
-      <div className="flex items-center justify-between w-full">
+    <div className="bg-white bg-opacity-70 w-[90vw] md:w-[35vw] mb-1 flex flex-col items-center justify-between border-b-2 border-gray-500 rounded-lg">
+      <div className="flex items-center justify-between w-full p-2">
         <button className="p-2 " onClick={handleComplete}>
           {task.isCompleted ? (
             <CheckCircleIcon width="24" height="24" fill="green" />
@@ -78,15 +78,18 @@ const Task = ({ task ,onTaskUpdate, onTaskDelete}) => {
         classNames="roll"
         unmountOnExit
     >
-        <div className="flex flex-col text-left w-[95%] mt-4">
+        <div className="flex flex-col text-left w-[100%] border-t-2 border-gray-300 bg-gray-100">
             <p>{task.details}</p>
-            <p>Created at: {new Date(task.createdAt).toLocaleString()}</p>
-            <p>Completed at: {task.completedAt ? new Date(task.completedAt).toLocaleString() : 'Not completed yet'}</p>
-            <button className="mt-2 p-1  w-[95%] bg-red-400 bg-opacity-75 text-red-600 rounded-sm hover:bg-black"
-            onClick={handleDelete}>
+            <div className="h-28 p-2 mt-2">
+              <p>Created at: {new Date(task.createdAt).toLocaleString()}</p>
+              <p>Completed at: {task.completedAt ? new Date(task.completedAt).toLocaleString() : 'Not completed yet'}</p>
+              <button className="mt-2 p-1 w-[95%] bg-red-200 bg-opacity-75 text-red-600 rounded-lg hover:bg-black" onClick={handleDelete}>
                 Delete
-            </button>
-        </div>
+              </button>
+            </div>
+      </div>
+
+
     </CSSTransition>
     </div>
   );
